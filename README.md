@@ -7,7 +7,7 @@
 
 Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/) and observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place's name, manages timezone and daylight saving. Performances are poor, mainly due to modules loading : main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
 
-Searching for stars nearer than 10° of M27, from L14 (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time :
+Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time :
 
 	Target   : m27 (19h59m36s +22d43m16s, Vulpecula), altitude=65.8°, azimuth=202° (S), airmass (secz)=1.097
     Observer : lat=45d46m38s, lon=4d55m22s, alt=172m, tz=Europe/Paris, 2019-09-10 21:00:00 UTC
@@ -32,4 +32,4 @@ Required python packages : [timezonefinder](https://pypi.org/project/timezonefin
 
 `wsgi.py` is a WSGI endpoint for web-based access, provided by `index.html`, which needs [jQuery](https://jquery.com).
 
-_**Work in progress.. Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227).**_
+_**Work in progress.. Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=2252).**_
