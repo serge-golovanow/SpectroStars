@@ -28,7 +28,7 @@ Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcente
     13  HD 189395   8.3°    5.506   19h58m38s +30d59m01s    73°, Δh=7.7°    -0.059  0.01    B9Vn     1.04
     14  HD 185936   9.9°    5.988   19h41m06s +13d48m56s    56°, Δh=-9.8°   -0.081  0.08    B5V      1.21
 
-Required python packages : [timezonefinder](https://pypi.org/project/timezonefinder/) [pytz](https://pypi.org/project/pytz/) [numpy](https://pypi.org/project/numpy/) [astropy](https://pypi.org/project/astropy/) [astroquery](https://pypi.org/project/astroquery/) [joblib](https://pypi.org/project/joblib/). Caution, [numba](https://pypi.org/project/numba/) badly interferes.
+Required python packages : [timezonefinder](https://pypi.org/project/timezonefinder/) [pytz](https://pypi.org/project/pytz/) [numpy](https://pypi.org/project/numpy/) [astropy](https://pypi.org/project/astropy/) [astroquery](https://pypi.org/project/astroquery/) [joblib](https://pypi.org/project/joblib/). AstroPy version >= 3.1 is required. Caution, [numba](https://pypi.org/project/numba/) badly interferes.
 
 `wsgi.py` is a WSGI endpoint for web-based access, provided by `index.html`, which needs [jQuery](https://jquery.com).
 
