@@ -7,8 +7,6 @@
 
 Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/) and observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place's name, manages timezone and daylight saving. Performances are poor, mainly due to modules loading : main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
 
-
-
 Searching for stars nearer than 10° of M27, from L14 (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time :
 
 	Target   : m27 (19h59m36s +22d43m16s, Vulpecula), altitude=65.8°, azimuth=202° (S), airmass (secz)=1.097
@@ -30,6 +28,8 @@ Searching for stars nearer than 10° of M27, from L14 (Vaulx-en-Velin Planetariu
     13  HD 189395   8.3°    5.506   19h58m38s +30d59m01s    73°, Δh=7.7°    -0.059  0.01    B9Vn     1.04
     14  HD 185936   9.9°    5.988   19h41m06s +13d48m56s    56°, Δh=-9.8°   -0.081  0.08    B5V      1.21
 
-Required python packages : timezonefinder pytz numpy astropy astroquery joblib
+Required python packages : [timezonefinder](https://pypi.org/project/timezonefinder/) [pytz](https://pypi.org/project/pytz/) [numpy](https://pypi.org/project/numpy/) [astropy](https://pypi.org/project/astropy/) [astroquery](https://pypi.org/project/astroquery/) [joblib](https://pypi.org/project/joblib/). Caution, [numba](https://pypi.org/project/numba/) badly interferes.
+
+`wsgi.py` is a WSGI endpoint for web-based access, provided by `index.html`, which needs [jQuery](https://jquery.com).
 
 _**Work in progress.. Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227).**_
