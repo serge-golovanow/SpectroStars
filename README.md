@@ -30,6 +30,10 @@ Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcente
 
 Required python packages : [timezonefinder](https://pypi.org/project/timezonefinder/) [pytz](https://pypi.org/project/pytz/) [numpy](https://pypi.org/project/numpy/) [astropy](https://pypi.org/project/astropy/) [astroquery](https://pypi.org/project/astroquery/) [joblib](https://pypi.org/project/joblib/). AstroPy version >= 3.1 is required. Caution, [numba](https://pypi.org/project/numba/) badly interferes.
 
-`wsgi.py` is a WSGI endpoint for web-based access.
+File|Language|Description
+----|--------|-----------
+spectrostars.py|Python|Main script
+base.csv|CSV|Stars database
+wsgi.py|Python|Optional WSGI backend
 
 _**Work in progress.. Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=2252).**_
