@@ -15,10 +15,7 @@
         The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
         The Software is provided “as is”, without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the Software.
 
-        This web page is used only with web-based (WSGI) use of SpectroStars
-
-        Include following libraries :
-        jQuery      MIT License     (c) JS Foundation and other contributors      https://jquery.org        
+        This web page is used only with web-based (WSGI) use of SpectroStars    
      -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -->
     <link rel="icon" type="image/png" href="/favicon.png">
     <!--<link href="style.css" rel="stylesheet" type="text/css">  -->
@@ -56,102 +53,10 @@
         #footer { font-size:80%; opacity:.5; text-align: center; padding-bottom: 3px; }
         #headsubtitle {	position: absolute; top: 40px; left: 68px; font-family: Georgia, "Times New Roman", Times, serif; font-size:16px; font-weight: normal; font-style: italic; color: #95ca05; }
     </style>
-    <script src="inc.js"></script> <!-- jQuery, JS Storage -->
+    <script src="jslib.js"></script> <!-- jQuery, JS Storage -->
+    <script src="jscode.js"></script> <!-- JavaScript code for this page -->
     <script>
-        // Here is the JavaScript part. As lot VanillaJS as possible ; jQuery will be used only for AJAX
-
-        //  WSGI endpoint URL
-        WSGIURL = 'wsgi';
-
-        // Nothing else to do
-
-        var storage; //JS Storage
-
-        function geoloc() { //HTML5 geolocation from navigator
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position){
-                    try {
-                        document.getElementById('place').value = position.coords.latitude.toFixed(6)+", "+position.coords.longitude.toFixed(6);
-                    } catch(ex) { console.warn('GeoLocation error : '+ex); }
-                });
-            } else {
-                console.warn('Navigator GeoLocation is not available');
-            }
-            return false;
-        }//////////////////////////////////////////////////////////////////////////
-
-        function validform() { //if form is valid, call WSGI
-            var erreurs = [];
-            var elplace = document.getElementById('place');
-            var eldate = document.getElementById('date');
-            var eltime = document.getElementById('time');
-            var eltarget = document.getElementById('target');
-            var elsepa = document.getElementById('separation');
-            var elinfo = document.getElementById('forminfo');
-
-            if (elplace.value == "") erreurs.push('observing place');
-            if (eldate.value == "") eldate.valueAsDate = new Date();
-            if (eltime.value == "") eltime.value = "22:00"
-            if (eltarget.value == "") erreurs.push('observing target');
-            if (elsepa.value == "") elsepa.value = "10"
-            if (elsepa.value <5 ) elsepa.value = "5"
-            if (elsepa.value >20) elsepa.value = "20"
-            
-            if (erreurs.length) { elinfo.innerHTML = "Error : please specify "+erreurs.join(' and ')+' !'; return false; }
-            else elinfo.innerHTML = "";
-
-            // Processing ; jQuery used from here
-            $("#submit").html('Processing...').prop("disabled", true);
-            $('input').prop("disabled", true);
-            $('html').addClass('wait');
-            $.ajax({ 
-                method: "GET",  url: WSGIURL,
-                data: { place: elplace.value, target: eltarget.value, date: eldate.value, time: eltime.value, separation:elsepa.value },
-                success : function(msg, statut){ // when process is correctly done
-                    $('html').removeClass('wait');
-                    $("#sortie").html( msg );
-                    $("#submit").html('Process').prop("disabled", false);   
-                    $('input').prop("disabled", false);
-                    try { // write target name in URL anchor
-                        window.location.hash = document.getElementById('target').value;
-                    } catch(ex) { console.warn("Erreur du hash : "+ex); } // en cas d'erreur on enchaine    
-                    try { // save place
-                        storage.set('place',document.getElementById('place').value);
-                    } catch(ex) { console.warn("Erreur JS storage : "+ex); } 
-                },
-                error : function(resultat, statut, error){ // if wsgi crashed
-                    $('html').removeClass('wait');
-                    $('input').prop("disabled", false);
-                    $("#sortie").html( 'Error : '+error+', please try again' );
-                    $("#submit").html('Process').prop("disabled", false);
-                    
-                },
-                complete : function(resultat, statut){
-        
-                }
-            }); //end $.ajax({
-
-            return false;     
-        }/////////////////////////////////////////////////////////////////////////
-
-        document.addEventListener("DOMContentLoaded", function(event) { // jQuery(document).ready(function($){
-            var place = undefined;
-            try { // load place from JS storage
-                storage=Storages.localStorage; 
-                place = storage.get('place');
-            } catch(error) { 
-                storage=false; 
-                console.warn("Au chargement de JS-Storage : "+error);
-            }             
-            document.getElementById('geoloc').addEventListener("click", geoloc, true);
-            document.getElementById('date').valueAsDate = new Date(); //today
-            document.getElementById('time').value = '22:00'; //tonight
-            document.getElementById('separation').value=10;
-            if (place !== undefined && place !== null) document.getElementById('place').value = place; 
-            document.getElementById('target').value = window.location.hash.substr(1).replace('%20',' ');
-
-        });/////////////////////////////////////////////////////////////////////////
-
+ 
     </script>
 </head>
 
