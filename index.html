@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>SpectroStars</title> 
+    <meta name="Description" content="Find reference stars for spectroscopy">  
+    <meta name="author" content="Serge Golovanow <https://www.sendell.com>">
+
+    <!-- -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+        SpectroStars : find reference stars for spectroscopy
+        https://github.com/serge-golovanow/SpectroStars
+        Copyright (c) 2019, Serge Golovanow
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        The Software is provided “as is”, without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the Software.
+
+        This web page is used only with web-based (WSGI) use of SpectroStars
+
+        Include following libraries :
+        jQuery      MIT License     (c) JS Foundation and other contributors      https://jquery.org        
+     -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <!--<link href="style.css" rel="stylesheet" type="text/css">  -->
+    <meta name="theme-color" content="#343a3d">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <style>
+        html * { padding: 0; margin: 0;  }
+        a img, :link img, :visited img, a:hover img, img:hover { border: 0; }
+        a img:hover { text-decoration:none; }
+        table { border-collapse: collapse; border-spacing: 0; }
+        ol, ul { list-style: none; }
+        li { margin-bottom: 2px; }
+        body { background: #343a3d url(/images/bgd.gif); color: #ddd; font-family: Verdana, "DejaVu Sans", "Bitstream Vera Sans", Geneva, sans-serif; font-size: 13px; text-align: center; line-height:1.4; text-size-adjust: none; -webkit-text-size-adjust:none; }
+        a { text-decoration:none; color:#4bc; }
+        a:hover { color:#0bf; text-decoration:underline; }
+
+        td { padding: 2px; }
+        hr { color: #47606d; background-color: #444a4d; height: 1px; border: 0; margin: 20px 0; }
+        img { background: #343a3d;  }  
+
+        input,select,textarea,button { background-color: #262b2e; border: 1px solid #5e6468; padding: 3px 4px 3px 4px; color: #ddd; margin: 2px; }
+        button { border-radius: 5px; }
+
+        html.wait { cursor:progress !important; } 
+        html.wait * { cursor:progress !important; } 
+        html.wait #sortie { background:#262b2e url(loading.gif) no-repeat center scroll;  }
+
+        #wrapper { width: 970px !important;	margin: 10px auto 0px auto; text-align: left; background: #2d3235; }
+        #header { width: 100%; height: 70px; background: #262b2e; position: relative; }
+        #headtitle { position: absolute; top:12px; left: 65px; width: 350px; height: 23px; font-size:24px; }
+        #headtitle a { text-decoration: none; color:#ddd; }
+
+        #content { margin-top:70px; float: left;	width: 940px; min-height:100px; background: #2d3235; padding:15px; }
+        #footer { font-size:80%; opacity:.5; text-align: center; padding-bottom: 3px; }
+        #headsubtitle {	position: absolute; top: 40px; left: 68px; font-family: Georgia, "Times New Roman", Times, serif; font-size:16px; font-weight: normal; font-style: italic; color: #95ca05; }
+    </style>
+    <script src="inc.js"></script> <!-- jQuery, JS Storage -->
+    <script>
+        // Here is the JavaScript part. As lot VanillaJS as possible ; jQuery will be used only for AJAX
+
+        //  WSGI endpoint URL
+        WSGIURL = 'wsgi';
+
+        // Nothing else to do
+
+        var storage; //JS Storage
+
+        function geoloc() { //HTML5 geolocation from navigator
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    try {
+                        document.getElementById('place').value = position.coords.latitude.toFixed(6)+", "+position.coords.longitude.toFixed(6);
+                    } catch(ex) { console.warn('GeoLocation error : '+ex); }
+                });
+            } else {
+                console.warn('Navigator GeoLocation is not available');
+            }
+            return false;
+        }//////////////////////////////////////////////////////////////////////////
+
+        function validform() { //if form is valid, call WSGI
+            var erreurs = [];
+            var elplace = document.getElementById('place');
+            var eldate = document.getElementById('date');
+            var eltime = document.getElementById('time');
+            var eltarget = document.getElementById('target');
+            var elsepa = document.getElementById('separation');
+            var elinfo = document.getElementById('forminfo');
+
+            if (elplace.value == "") erreurs.push('observing place');
+            if (eldate.value == "") eldate.valueAsDate = new Date();
+            if (eltime.value == "") eltime.value = "22:00"
+            if (eltarget.value == "") erreurs.push('observing target');
+            if (elsepa.value == "") elsepa.value = "10"
+            if (elsepa.value <5 ) elsepa.value = "5"
+            if (elsepa.value >20) elsepa.value = "20"
+            
+            if (erreurs.length) { elinfo.innerHTML = "Error : please specify "+erreurs.join(' and ')+' !'; return false; }
+            else elinfo.innerHTML = "";
+
+            // Processing ; jQuery used from here
+            $("#submit").html('Processing...').prop("disabled", true);
+            $('input').prop("disabled", true);
+            $('html').addClass('wait');
+            $.ajax({ 
+                method: "GET",  url: WSGIURL,
+                data: { place: elplace.value, target: eltarget.value, date: eldate.value, time: eltime.value, separation:elsepa.value },
+                success : function(msg, statut){ // when process is correctly done
+                    $('html').removeClass('wait');
+                    $("#sortie").html( msg );
+                    $("#submit").html('Process').prop("disabled", false);   
+                    $('input').prop("disabled", false);
+                    try { // write target name in URL anchor
+                        window.location.hash = document.getElementById('target').value;
+                    } catch(ex) { console.warn("Erreur du hash : "+ex); } // en cas d'erreur on enchaine    
+                    try { // save place
+                        storage.set('place',document.getElementById('place').value);
+                    } catch(ex) { console.warn("Erreur JS storage : "+ex); } 
+                },
+                error : function(resultat, statut, error){ // if wsgi crashed
+                    $('html').removeClass('wait');
+                    $('input').prop("disabled", false);
+                    $("#sortie").html( 'Error : '+error+', please try again' );
+                    $("#submit").html('Process').prop("disabled", false);
+                    
+                },
+                complete : function(resultat, statut){
+        
+                }
+            }); //end $.ajax({
+
+            return false;     
+        }/////////////////////////////////////////////////////////////////////////
+
+        document.addEventListener("DOMContentLoaded", function(event) { // jQuery(document).ready(function($){
+            var place = undefined;
+            try { // load place from JS storage
+                storage=Storages.localStorage; 
+                place = storage.get('place');
+            } catch(error) { 
+                storage=false; 
+                console.warn("Au chargement de JS-Storage : "+error);
+            }             
+            document.getElementById('geoloc').addEventListener("click", geoloc, true);
+            document.getElementById('date').valueAsDate = new Date(); //today
+            document.getElementById('time').value = '22:00'; //tonight
+            document.getElementById('separation').value=10;
+            if (place !== undefined && place !== null) document.getElementById('place').value = place; 
+            document.getElementById('target').value = window.location.hash.substr(1).replace('%20',' ');
+
+        });/////////////////////////////////////////////////////////////////////////
+
+    </script>
+</head>
+
+<body style="background-color: #343a3d;">
+
+<div id="wrapper">
+	
+	<div id="content">
+        <form action="">
+            <table>
+                <tr>
+                    <td>Target :</td>
+                    <td><input autofocus type="text" name="target" id="target" placeholder="Target name" ></td>
+                    <td>Target name, it will be used to search in <abbr title="SIMBAD Astronomical Database">SIMBAD</abbr></td>
+                </tr>                    
+                <tr>
+                    <td>Place :</td>
+                    <td><input type="text" name="place" id="place" placeholder="Place (name or lat,lon)" ></td>
+                    <!--<td><button id="geoloc" onclick="return false;">Localise me</button></td>-->
+                    <td>You can <a href="" onclick="return false;" id="geoloc">use geolocation</a>, write a place name, an <a href="https://minorplanetcenter.net/iau/lists/ObsCodesF.html">IAU/MPC code</a>, or lat,lon in <abbr title="by example : 45.5, 4.8">degrees</abbr></td>
+                </tr>
+                <tr>
+                    <td>Date :</td>
+                    <td><input type="date" name="date" id="date"></td>
+                    <td>Observing date</td>
+                </tr>
+                <tr>
+                    <td>Time :</td>
+                    <td><input type="time" name="time" id="time"></td>
+                    <td>Observing <u>local</u> time, it will be converted to UTC</td>
+                </tr>                    
+                <tr>
+                    <td>Separation :</td>
+                    <td><input type="number" min="5" max="20" name="separation" id="separation" placeholder="Maximum separation"></td>
+                    <td>Maximum separation from target to reference stars in degrees (5-20)</td>
+                </tr>
+                <tr>
+                    <td colspan=2 style="text-align: center;"><button style="width:90%" onclick="return validform();" id="submit">Process</button></td>
+                    <td>Search reference stars (it usually takes 10~15 seconds...)</td>
+                </tr>               
+                <tr><td colspan=3><span id="forminfo"> </span></td></tr>
+            </table>
+        </form>
+        <hr />
+        <textarea readonly style="width:99%; height:400px;" id="sortie" placeholder="Stars with height below -10° won't be displayed.&#10;Results will be sorted by Δh."></textarea>
+
+        <div id="footer">Made by <a href="https://www.sendell.com/">Serge Golovanow</a>, using <a href="https://www.astropy.org/">AstroPy</a>, based on <a href="base.csv" rel="nofollow">stars database</a> and idea from <a href="http://www.astronomie-amateur.fr/ProjetsSpectro0.html">François Teyssier</a>. Source code available <a href="https://github.com/serge-golovanow/SpectroStars">on GitHub</a>.</div>
+
+	</div><!--end content-->
+    
+    <header><div id="header">  <!-- yes indeed, header at the end -->
+        <div id="headtitle"><a href=".">SpectroStars</a></div>
+        <div id="headsubtitle">Reference stars for spectroscopy</div>
+    </div></header>    
+  
+</div><!--end wrapper-->
+
+</body>
