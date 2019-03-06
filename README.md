@@ -35,7 +35,7 @@ File|Language|Description
 spectrostars.py|Python|Main script
 base.csv|CSV|Stars database
 wsgi.py|Python|Optional WSGI backend
-index.html|HTML, CSS, JavaScript|Optional web page
+index.html|HTML, CSS|Optional web page
 jslib.js|JavaScript|jQuery and JS-Storage for the web page
 jscode.js|JavaScript|JavaScript code for the web page
 
