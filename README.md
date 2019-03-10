@@ -5,9 +5,11 @@
 
 **Find reference stars for astronomical spectroscopy**
 
-Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/) and observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place's name, manages timezone and daylight saving. Performances are poor, mainly due to modules loading : main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
+Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/), observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place name, it also manages timezone and daylight saving. Performances are poor, mainly due to modules loading : main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
 
-Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time :
+Online web version : https://www.sendell.com/spectrostars/
+
+Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time : https://www.sendell.com/spectrostars/#M27
 
 	Target   : m27 (19h59m36s +22d43m16s, Vulpecula), altitude=65.8°, azimuth=202° (S), airmass (secz)=1.097
     Observer : lat=45d46m38s, lon=4d55m22s, alt=172m, tz=Europe/Paris, 2019-09-10 21:00:00 UTC
@@ -39,4 +41,4 @@ index.html|HTML, CSS|Optional web page
 jslib.js|JavaScript|jQuery and JS-Storage for the web page
 jscode.js|JavaScript|JavaScript code for the web page
 
-_**Work in progress.. Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=2252).**_
+_**Work in progress... Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=2252).**_
