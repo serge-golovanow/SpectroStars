@@ -109,7 +109,7 @@ def starload(star,target,maxseparation,altaz): #Compute an OrderedDict : separat
 def baseload(target,maxseparation,altaz): #Read CSV database to put it in an OrderedDict
     starbase = []
     with open(csvfilename, newline='\n') as csvfile:
-        csvbase = csv.DictReader(csvfile, delimiter=';')
+        csvbase = csv.DictReader(csvfile, delimiter=',')
 
         if parallelize:	#Joblib.Parallel : parallelise main loop        loky multiprocessing threading
             starbase = Parallel(n_jobs=-1,backend="multiprocessing",verbose=0)(delayed(starload)(star,target,maxseparation,altaz) for star in csvbase)
