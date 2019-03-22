@@ -36,6 +36,7 @@ File|Language|Description
 ----|--------|-----------
 spectrostars.py|Python|Main script
 base.csv|CSV|Stars database
+otypes.py|Python|Object classification in SIMBAD
 wsgi.py|Python|Optional WSGI backend
 index.html|HTML, CSS|Optional web page
 jslib.js|JavaScript|jQuery and JS-Storage for the web page
