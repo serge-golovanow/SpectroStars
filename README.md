@@ -3,11 +3,10 @@
 [![Made with Python](https://img.shields.io/badge/Made%20with-Python-red.svg)](https://www.python.org/)
 [![Powered by Astropy](http://img.shields.io/badge/Powered%20by-AstroPy-orange.svg)](https://www.astropy.org)
 
-**Find reference stars for astronomical spectroscopy**
+**Find reference stars for astronomical spectroscopy : https://www.sendell.com/spectrostars/**
 
 Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/), observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place name, it also manages timezone and daylight saving. Performances are poor, mainly due to modules loading : main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
 
-**Online web version : https://www.sendell.com/spectrostars/**
 
 Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time : https://www.sendell.com/spectrostars/#M27
 
