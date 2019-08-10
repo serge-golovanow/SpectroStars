@@ -3,12 +3,12 @@
 [![Made with Python](https://img.shields.io/badge/Made%20with-Python-red.svg)](https://www.python.org/)
 [![Powered by Astropy](http://img.shields.io/badge/Powered%20by-AstroPy-orange.svg)](https://www.astropy.org)
 
-**Find reference stars for astronomical spectroscopy : https://www.sendell.com/spectrostars/**
+**Find reference stars for astronomical spectroscopy : https://spectro-starfinder.net/**
 
 Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/), observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place name, it also manages timezone and daylight saving. Main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
 
 
-Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time : https://www.sendell.com/spectrostars/#M27
+Searching for stars nearer than 10° of M27, from [L14](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) (Vaulx-en-Velin Planetarium), september 9th, 23:00 local time : https://spectro-starfinder.net/#M27
 
 	Target   : m27 (19h59m36s +22d43m16s, Vulpecula), altitude=65.8°, azimuth=202° (S), airmass (secz)=1.097
     Observer : lat=45d46m38s, lon=4d55m22s, alt=172m, tz=Europe/Paris, 2019-09-10 21:00:00 UTC
