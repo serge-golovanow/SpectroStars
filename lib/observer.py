@@ -19,7 +19,7 @@ cachedir = '/tmp/spectrostars/cache/'
 #Google Api Key or None ( https://developers.google.com/maps/documentation/geocoding/get-api-key )
 #If None, OSM will be used, without place altitude : https://nominatim.openstreetmap.org/
 #IF you're using AstroPy version <3.1, you'll get trouble... Soon, if False, no geolocation : lat,Lon will be required
-googleapikey = 'APIKEY' 
+googleapikey = None
 
 
 class Observer:
