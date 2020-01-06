@@ -59,7 +59,7 @@ def application(environ, start_response):
         csvfilename = 'base.csv'
         base = Base(csvfilename)  #load database in an object
         observateur = Observer('Lyon', '2019-10-27 20:30')  #create observer object
-        cible = Target(macoord)  #create target object
+        cible = Target(target)  #create target object
         cible.observe(observateur)  #observe target
         base.near(cible,maxseparation,observateur)  #search stars near target
 
