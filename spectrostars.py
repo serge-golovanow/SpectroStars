@@ -33,6 +33,7 @@ csvfilename = 'cds.csv'
 #macoord = "PNV J06095740+1212255"
 #macoord = "08 10 14 22 12 16"
 macoord = "M15"
+separation = 10
 
 base = Base(csvfilename)  #load database in an object
 observateur = Observer('Lyon', '2019-10-27 20:30')  #create observer object
@@ -47,5 +48,5 @@ if cible.alt<0:
     exit(0)
 
 
-base.near(cible,8,observateur)  #search stars near target
+base.near(cible,separation,observateur)  #search stars near target
 print(base.html())
