@@ -14,16 +14,28 @@ Apache (mod-wsgi-py3) VirtualHost configuration example :
     WSGIProcessGroup spectrostars
     WSGIScriptAlias /spectrostars/wsgi /var/www/spectrostars/wsgi.py
 
-
-Forbid access to spectrostars.py to protect your Google API key ; with a .htaccess file :
- RewriteRule spectrostars\.py$ - [F,L,NC]
-
-v19-03-04
+v2020-01-05
 '''
+
+import os
+cwd = os.getcwd()
+os.environ.update({ 'HOME':cwd })
 
 from cgi import parse_qs, escape
 from datetime import datetime
-from spectrostars import process
+ 
+from lib.functions import *
+from lib.target import Target
+from lib.observer import Observer
+from lib.base import Base 
+
+#https://www.usno.navy.mil/ : USNO websites [...] are undergoing modernization efforts. The expected completion of the work and return of service is estimated as 30 April 2020.
+from astropy.utils import iers
+iers.conf.auto_download = False
+
+#avoid "No known catalog could be found" and other warnings
+import warnings
+warnings.filterwarnings(action="ignore")
 
 def application(environ, start_response):
     query = parse_qs(environ['QUERY_STRING']) #query parameters
@@ -43,11 +55,16 @@ def application(environ, start_response):
     if 'target' in query: target = escape(query.get('target')[0])
     else: outputlines = ['no target ?!!'] #no default target
 
-    #Call to spectrostars.process !
-    try:
-        if (outputlines is None): outputlines = process(targetname=target,maxseparation=maxseparation,obsplace=place,obsdatetime=obsdatetime)
-    except:
-        outputlines = None
+    if (outputlines is None): 
+        csvfilename = 'base.csv'
+        base = Base(csvfilename)  #load database in an object
+        observateur = Observer('Lyon', '2019-10-27 20:30')  #create observer object
+        cible = Target(macoord)  #create target object
+        cible.observe(observateur)  #observe target
+        base.near(cible,maxseparation,observateur)  #search stars near target
+
+        if cible.alt>0: outputlines = [cible.html()+'<br>',observateur.html()+'<br>',base.html()]
+        else: outputlines = [cible.html()+'<br>',observateur.html()+'<br>','Target is below the horizon !']
 
     if (outputlines is not None): status = '200 OK' #HTTP success
     else: 
