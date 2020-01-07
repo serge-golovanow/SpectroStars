@@ -50,18 +50,19 @@ def application(environ, start_response):
     if 'time' in query: time = escape(query.get('time')[0])
     else: time = '22:00' #local time
     obsdatetime = date+' '+time
-    if 'place' in query: place = escape(query.get('place')[0])
-    else: place = 'Lyon, France' #Home, sweet home !
-    if 'target' in query: target = escape(query.get('target')[0])
+    if 'place' in query: obsplacename = escape(query.get('place')[0])
+    else: obsplacename = 'Lyon, France' #Home, sweet home !
+    if 'target' in query: targetname = escape(query.get('target')[0])
     else: outputlines = ['no target ?!!'] #no default target
 
     if (outputlines is None): 
-        csvfilename = 'base.csv'
+        csvfilename = 'cds.csv'
+        
         base = Base(csvfilename)  #load database in an object
-        observateur = Observer('Lyon', '2019-10-27 20:30')  #create observer object
-        cible = Target(target)  #create target object
+        observateur = Observer(obsplacename, obsdatetime)  #create observer object
+        cible = Target(targetname)  #create target object
         cible.observe(observateur)  #observe target
-        base.near(cible,maxseparation,observateur)  #search stars near target
+        base.near(cible,maxseparation,observateur)
 
         if cible.alt>0: outputlines = [cible.html()+'<br>',observateur.html()+'<br>',base.html()]
         else: outputlines = [cible.html()+'<br>',observateur.html()+'<br>','Target is below the horizon !']
