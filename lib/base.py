@@ -45,6 +45,24 @@ class Base:
             line+=1
         text = text + '</table>'
         return text
-
+    
     def txt(self):
-        pass #ToDo !!!
+        line=1
+        text = '##  Star:\tSep:\tVMag:\tRA:\t  Dec:\t\tHeight:\t\tB-V:\tEb-v:\tSpTy:\tMiles:'
+        for star in self.nearbase:
+            text = text + ( "\n"
+                + str(line).zfill(2)
+                + "  " + Name(star['Name']).txt()
+                + "\t" + Separation(star['Separation']).txt()
+                + "\t" + VMag(star['V']).txt()
+                + "\t" + RADec(star['Sky']).txt()
+                + "\t" + Alt(star['Alt']).txt()
+                + ", Δh=" + Delta(star['Delta']).txt()
+                + "\t" + BV(star['B-V']).txt()
+                + "\t" + EBV(star['EB-V']).txt()
+                + "\t" + SPType(star['Sp']).txt()
+                #+ "\t " + str(round(star['secz'],2))
+                + "\t" + Miles(star['Miles']).txt()
+            )
+            line += 1
+        return text
