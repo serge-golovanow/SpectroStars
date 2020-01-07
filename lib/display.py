@@ -22,7 +22,7 @@ class Name(Value):
 class Separation(Value):
     def __init__(self,val):
         self.val=(round(val,3))    
-    def txt(self,val):
+    def txt(self):
         return str(round(self.val,1))+'°'
     def html(self):
         if round(self.val,1) >= 15: alert='class="alert" title="Very huge separation"'
@@ -38,13 +38,15 @@ class RADec():
     def __init__(self,sky):
         coords = sky.to_string(style='hmsdms',precision=0)
         self.RA = coords.split(' ')[0]
-        self.dec = coords.split(' ')[1]            
+        self.dec = coords.split(' ')[1]   
     def txt(self):
-        return self.RA+'\t'+self.dec
+        return self.RA+' '+self.dec
     def html(self):
         return '<td>'+self.RA+'</td><td>'+self.dec+'</td>'
 
 class Alt(Value):
+    def txt(self):
+        return str(int(self.val))+'°'
     def html(self,airmass,az):
         if self.val < 0: return '<td><abbr class="alert" title="The star must be above the horizon !&#10Height='+str(round(self.val,2))+'°&#10Azimuth : '+str(round(az))+'°">'+str(round(self.val))+'°</abbr></td>'
         elif self.val < 15: alert='class="alert" '
@@ -55,6 +57,8 @@ class Alt(Value):
 class Delta(Value):
     def __init__(self,val):
         self.val=(round(val,3))
+    def txt(self):
+        return str(round(self.val,1))+'°'
     def html(self):
         if math.fabs(round(self.val,1)) >= 10: alert='class="alert" title="Very huge height difference"'
         elif math.fabs(round(self.val,1)) >= 5: alert='class="warn" title="Huge height difference"'
@@ -86,3 +90,7 @@ class Miles(Value):
     def html(self):
         if (self.val != ''): return '<td><abbr class="good" title="This star is in the Miles database">'+str(self.val)+'</abbr></td>'
         else: return '<td></td>'
+    def txt(self):
+        if (self.val != ''): return str(self.val)
+        else: return ''
+
