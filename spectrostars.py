@@ -33,20 +33,21 @@ csvfilename = 'cds.csv'
 #macoord = "PNV J06095740+1212255"
 #macoord = "08 10 14 22 12 16"
 macoord = "M15"
-separation = 10
+obsplacename = '586' # a place name, an IAU/MPC code, or lat,lon in degrees
+obsdatetime = '2019-09-15 23:00' # YYYY-MM-DD HH:MM
+maxseparation = 5 # separation in degrees
 
 base = Base(csvfilename)  #load database in an object
-observateur = Observer('Lyon', '2019-10-27 20:30')  #create observer object
-cible = Target(macoord)  #create target object
+observateur = Observer(obsplacename, obsdatetime)  #create observer object
+cible = Target(targetname)  #create target object
 cible.observe(observateur)  #observe target
 
-print(cible.html()+'<br>')
-print(observateur.html()+'<br>')
+print(cible.txt())
+print(observateur.txt())
 
 if cible.alt<0:
     print('Target is below the horizon!')
     exit(0)
 
-
-base.near(cible,separation,observateur)  #search stars near target
-print(base.html())
+base.near(cible,maxseparation,observateur)  #search stars near target
+print(base.txt())
