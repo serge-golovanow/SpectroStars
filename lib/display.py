@@ -78,6 +78,8 @@ class OType(Value):
         return '<td><abbr title="'+otypes[self.val]+'">'+self.val+'</abbr></td>'
 
 class SPType(Value):
+    def __init__(self,val):
+        self.val=val.replace(' ','')    
     def html(self):
         sptype = re.search(r'[OBA]\d+[IV]+s?[a-z]*',self.val.replace(' ',''))
         if sptype: sptype=sptype.group()
