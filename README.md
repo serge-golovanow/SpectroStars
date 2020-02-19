@@ -12,7 +12,7 @@ Searching for stars nearer than 5° of M27, from [586](https://minorplanetcenter
 
 Target: M  27 (19h59m36s +22d43m16s, Planetary Nebula in Vulpecula), altitude=68.3°, azimuth=204°, airmass=1.076
 Observer: lat=42d56m13s, lon=0d08m27s, alt=2843m, tz=Europe/Paris, 2019-09-15 21:00 UTC
-##  Star:       Sep:    VMag:   RA:       Dec:          Height:         B-V:    Eb-v:   SpType: Miles:
+..  Star:       Sep:    VMag:   RA:       Dec:          Height:         B-V:    Eb-v:   SpType: Miles:
 01  HD 187811   2.0°    4.89    19h51m04s +22d36m36s    67°, Δh=-0.8°   -0.143  0.10    B2,5Ve
 02  HD 190993   1.9°    5.06    20h06m53s +23d36m52s    69°, Δh=1.4°    -0.16   0.04    B3V
 03  HD 189944   2.1°    5.87    20h01m45s +24d48m02s    70°, Δh=2.1°    -0.133  0.05    B4V
