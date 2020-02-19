@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 '''
 SpectroStars : Find reference stars for spectroscopy
 https://github.com/serge-golovanow/SpectroStars
@@ -29,10 +31,10 @@ import warnings
 warnings.filterwarnings(action="ignore")
 
 csvfilename = 'cds.csv'
-#macoord = "16h41m42s +36d27m41s"
-#macoord = "PNV J06095740+1212255"
-#macoord = "08 10 14 22 12 16"
-macoord = "M15"
+#targetname = "16h41m42s +36d27m41s"
+#targetname = "PNV J06095740+1212255"
+#targetname = "08 10 14 22 12 16"
+targetname = 'M27'
 obsplacename = '586' # a place name, an IAU/MPC code, or lat,lon in degrees
 obsdatetime = '2019-09-15 23:00' # YYYY-MM-DD HH:MM
 maxseparation = 5 # separation in degrees
