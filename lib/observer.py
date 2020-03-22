@@ -14,7 +14,7 @@ from astroquery.mpc import MPC
 
 
 #Cache directory, with ending  /, or None
-cachedir = '/tmp/spectrostars/cache/'
+cachedir = '/tmp/'
 
 #Google Api Key or None ( https://developers.google.com/maps/documentation/geocoding/get-api-key )
 #If None, OSM will be used, without place altitude : https://nominatim.openstreetmap.org/
