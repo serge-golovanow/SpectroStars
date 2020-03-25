@@ -54,8 +54,19 @@ class Observer:
             except:
                 obs = None 
 
+        if (obs is None and re.match(r'^[0-9\.]+, ?[0-9\.]+',obsplace)):    #from coordinates
+            try:
+                latlon = Angle(obsplace.split(','),u.deg)
+                altitude = 250 # can be hard-coded here until I do something else...
+                obs = EarthLocation.from_geodetic(latlon[1],latlon[0],altitude)
+            except:
+                obs = None
+
         if (cachedir is not None and obs is not None and not os.path.isfile(cachedir+md5place)):   #saving in a pickle
-            pickle.dump(obs, open(cachedir+md5place, 'wb'))
+            try:
+                pickle.dump(obs, open(cachedir+md5place, 'wb'))
+            except:
+                pass
         
         if obs is None: print('Erreur obs')
         self.place =  obs

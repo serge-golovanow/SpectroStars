@@ -30,7 +30,7 @@ iers.conf.auto_download = False
 import warnings
 warnings.filterwarnings(action="ignore")
 
-csvfilename = 'cds.csv'
+csvfilename = 'base.csv'
 #targetname = "16h41m42s +36d27m41s"
 #targetname = "PNV J06095740+1212255"
 #targetname = "08 10 14 22 12 16"

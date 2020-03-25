@@ -6,7 +6,9 @@ from lib.display import *
 class Base:
     def __init__(self,filename):
         self.target = ''
-        if not os.path.isfile(filename): return false
+        if not os.path.isfile(filename): 
+            print("Can't find CSV file !")
+            exit(1)
         self.dict = []
         self.nearbase = None
         with open(filename, newline='\n') as csvfile:    #test : csv mal formaté
