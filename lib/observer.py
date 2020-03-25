@@ -68,8 +68,9 @@ class Observer:
             except:
                 pass
         
-        if obs is None: print('Erreur obs')
         self.place =  obs
+        if obs is None: 
+            return None  
 
         tzf = TimezoneFinder()
         try:

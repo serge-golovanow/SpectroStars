@@ -37,7 +37,9 @@ class Target:
                 except:
                     pass
 
-        if CDS is None: return None #on ne peut plus rien faire d'autre
+        if CDS is None: 
+            self.sky = None
+            return None #on ne peut plus rien faire d'autre
 
         self.sky = CDS
         self.mainid = 'Unknown'

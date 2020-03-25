@@ -61,11 +61,16 @@ def application(environ, start_response):
         base = Base(csvfilename)  #load database in an object
         observateur = Observer(obsplacename, obsdatetime)  #create observer object
         cible = Target(targetname)  #create target object
-        cible.observe(observateur)  #observe target
-        base.near(cible,maxseparation,observateur)
-
-        if cible.alt>0: outputlines = [cible.html()+'<br>',observateur.html()+'<br>',base.html()]
-        else: outputlines = [cible.html()+'<br>',observateur.html()+'<br>','Target is below the horizon !']
+        cible = Target(targetname)  #create target object
+        if observateur.place is None:
+            outputlines = ["Can't find observer's place !"]
+        elif cible.sky is None:
+            outputlines = ["Can't find target !"]
+        else:
+            cible.observe(observateur)  #observe target
+            base.near(cible,maxseparation,observateur)
+            if cible.alt>0: outputlines = [cible.html()+'<br>',observateur.html()+'<br>',base.html()]
+            else: outputlines = [cible.html()+'<br>',observateur.html()+'<br>','Target is below the horizon !']
 
     if (outputlines is not None): status = '200 OK' #HTTP success
     else: 

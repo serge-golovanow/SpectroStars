@@ -42,6 +42,12 @@ maxseparation = 5 # separation in degrees
 base = Base(csvfilename)  #load database in an object
 observateur = Observer(obsplacename, obsdatetime)  #create observer object
 cible = Target(targetname)  #create target object
+if observateur.place is None:
+    print("Can't find observer's place !")
+    exit(1)
+if cible.sky is None:
+    print('Target can\'t be found !')
+    exit(2)
 cible.observe(observateur)  #observe target
 
 print(cible.txt())
