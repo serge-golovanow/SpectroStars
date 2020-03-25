@@ -35,7 +35,7 @@ class Base:
                 + Name(star['Name']).html(star['CDSName'],star['SAO']) 
                 + Separation(star['Separation']).html() 
                 + VMag(star['V']).html() 
-                + RADec(star['Sky']).html()
+                + RADec(star['Sky']).html(self.target)
                 + Alt(star['Alt']).html(star['secz'],star['Az'])
                 + Delta(star['Delta']).html()
                 + BV(star['B-V']).html()

@@ -34,15 +34,18 @@ class VMag(Value):
     def __init__(self,val):
         self.val=round(float(val),2)
 
-class RADec():
+class RADec():  #todo : separation sur RA & dec avec target
     def __init__(self,sky):
+        self.sky = sky
         coords = sky.to_string(style='hmsdms',precision=0)
         self.RA = coords.split(' ')[0]
         self.dec = coords.split(' ')[1]   
     def txt(self):
         return self.RA+' '+self.dec
-    def html(self):
-        return '<td>'+self.RA+'</td><td>'+self.dec+'</td>'
+    def html(self,target):
+        DRA = Angle(float(self.sky.to_string(style='decimal').split(' ')[0]),u.degree) - target.ra
+        Ddec = Angle(float(self.sky.to_string(style='decimal').split(' ')[1]),u.degree) - target.dec
+        return '<td><abbr title="ΔRA='+DRA.to_string(unit='hourangle',precision=0)+'">'+self.RA+'</abbr></td><td><abbr title="Δdec='+Ddec.to_string(precision=0)+'">'+self.dec+'</abbr></td>'
 
 class Alt(Value):
     def txt(self):
