@@ -18,7 +18,6 @@
         This web page is used only with web-based (WSGI) use of SpectroStars    
      -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -->
     <link rel="icon" type="image/png" href="/favicon.png">
-    <!--<link href="style.css" rel="stylesheet" type="text/css">  -->
     <meta name="theme-color" content="#343a3d">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
@@ -29,7 +28,7 @@
         table { border-collapse: collapse; border-spacing: 0; }
         ol, ul { list-style: none; }
         li { margin-bottom: 2px; }
-        body { background: #343a3d url(/images/bgd.gif); color: #ddd; font-family: Verdana, "DejaVu Sans", "Bitstream Vera Sans", Geneva, sans-serif; font-size: 13px; text-align: center; line-height:1.4; text-size-adjust: none; -webkit-text-size-adjust:none; }
+        body { background: #343a3d url(bgd.gif); color: #ddd; font-family: Verdana, "DejaVu Sans", "Bitstream Vera Sans", Geneva, sans-serif; font-size: 13px; text-align: center; line-height:1.4; text-size-adjust: none; -webkit-text-size-adjust:none; }
         a { text-decoration:none; color:#4bc; }
         a:hover { color:#0bf; text-decoration:underline; }
 
@@ -38,11 +37,16 @@
         img { background: #343a3d;  }  
 
         input,select,textarea,button { background-color: #262b2e; border: 1px solid #5e6468; padding: 3px 4px 3px 4px; color: #ddd; margin: 2px; }
-        button { border-radius: 5px; }
+        button { border-radius: 4px; }
 
         html.wait { cursor:progress !important; } 
         html.wait * { cursor:progress !important; } 
-        html.wait #sortie { background:#262b2e url(loading.gif) no-repeat center scroll;  }
+        html.wait #result { background:#2d3235 url(loading.gif) no-repeat top center scroll;  }
+
+        abbr.warn { text-decoration-color: orange; }
+        abbr.alert { text-decoration-color: red; }
+        abbr.good  { text-decoration-color: #0F0; }
+        span.hint { font-family: 'Courier New', Courier, monospace; }
 
         #wrapper { width: 970px !important;	margin: 10px auto 0px auto; text-align: left; background: #2d3235; }
         #header { width: 100%; height: 70px; background: #262b2e; position: relative; }
@@ -50,8 +54,19 @@
         #headtitle a { text-decoration: none; color:#ddd; }
 
         #content { margin-top:70px; float: left;	width: 940px; min-height:100px; background: #2d3235; padding:15px; }
-        #footer { font-size:80%; opacity:.5; text-align: center; padding-bottom: 3px; }
+        #footer { font-size:90%; opacity:.6; text-align: center; padding-bottom: 3px; }
         #headsubtitle {	position: absolute; top: 40px; left: 68px; font-family: Georgia, "Times New Roman", Times, serif; font-size:16px; font-weight: normal; font-style: italic; color: #95ca05; }
+
+        #submit { box-shadow: 0px 0px 4px #444; }
+
+        #result { margin-top:15px; margin-bottom:20px; transition: height 2s; }
+        #result table { width: 100%; margin-top:15px; margin-bottom:10px; border: 1px solid #444a4d;}
+        #result td,th { padding-left: 0.8em; padding-right: 0.8em; text-align: center;  }
+        #result th { padding: 5px 2px; }
+        #result thead { background-color: #262b2e; color: #FFFFFF; border-bottom: 1px solid #444a4d; font-weight: bold; }
+        #result tbody tr:nth-child(odd) { background-color:	#2d3235; }
+        #result tr:nth-child(even) { background-color:#262b2e;  }
+        #result tbody tr:hover { background-color:#12181e; }     
     </style>
     <script src="jslib.js"></script> <!-- jQuery, JS Storage -->
     <script src="jscode.js"></script> <!-- JavaScript code for this page -->
@@ -85,7 +100,7 @@
                 </tr>
                 <tr>
                     <td>Time :</td>
-                    <td><input type="time" name="time" id="time"></td>
+                    <td><input type="time" name="time" id="time" placerholder="hh:mm"><button id="now" type="button">Now</button></td>
                     <td>Observing <u>local</u> time, it will be converted to UTC</td>
                 </tr>                    
                 <tr>
@@ -100,8 +115,10 @@
                 <tr><td colspan=3><span id="forminfo"> </span></td></tr>
             </table>
         </form>
+
         <hr />
-        <textarea readonly style="width:99%; height:400px;" id="sortie" placeholder="Stars with height below -10° won't be displayed.&#10;Results will be sorted by Δh."></textarea>
+
+        <div id="result"> </div>
 
         <div id="footer">Made by <a href="https://www.sendell.com/">Serge Golovanow</a>, using <a href="https://www.astropy.org/">AstroPy</a>, based on <a href="base.csv" rel="nofollow">stars database</a> and idea from <a href="http://www.astronomie-amateur.fr/ProjetsSpectro0.html">François Teyssier</a>. Source code available <a href="https://github.com/serge-golovanow/SpectroStars">on GitHub</a>.</div>
 

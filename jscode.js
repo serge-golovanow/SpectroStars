@@ -1,3 +1,4 @@
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 * SpectroStars : find reference stars for spectroscopy
@@ -12,7 +13,7 @@
 * 
 * Required libraries :
 *  jQuery          MIT license     (c) JS Foundation and other contributors        https://jquery.org/license
-*  HS-Storage      MIT license     Copyright (c) 2016 Julien Maurel                https://github.com/julien-maurel/js-storage
+*  JS-Storage      MIT license     Copyright (c) 2016 Julien Maurel                https://github.com/julien-maurel/js-storage
 * 
 * As lot VanillaJS as possible ; jQuery will be used only for AJAX
 * 
@@ -25,11 +26,23 @@ WSGIURL = 'wsgi';
 
 var storage; //JS Storage
 
+Number.prototype.pad = function(size) { //.padstart(2,'0') won't work with internet explorer
+    var s = String(this);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
+}        
+
+function now() { // set time to the current one
+    var d = new Date();
+    var tnow = d.getHours().pad(2) +":"+ d.getMinutes().pad(2);
+    document.getElementById('time').value = tnow;
+}//////////////////////////////////////////////////////////////////////////
+
 function geoloc() { //HTML5 geolocation from navigator
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
             try {
-                document.getElementById('place').value = position.coords.latitude.toFixed(6)+", "+position.coords.longitude.toFixed(6);
+                document.getElementById('place').value = position.coords.latitude.toFixed(3)+", "+position.coords.longitude.toFixed(3);
             } catch(ex) { console.warn('GeoLocation error : '+ex); }
         });
     } else {
@@ -59,7 +72,7 @@ function validform() { //if form is valid, call WSGI
     else elinfo.innerHTML = "";
 
     // Processing ; jQuery used from here
-    $("#submit").html('Processing...').prop("disabled", true);
+    $("#submit").html('Processing... please wait').prop("disabled", true);
     $('input').prop("disabled", true);
     $('html').addClass('wait');
     $.ajax({ 
@@ -67,7 +80,12 @@ function validform() { //if form is valid, call WSGI
         data: { place: elplace.value, target: eltarget.value, date: eldate.value, time: eltime.value, separation:elsepa.value },
         success : function(msg, statut){ // when process is correctly done
             $('html').removeClass('wait');
-            $("#sortie").html( msg );
+            $("#result").html(msg);
+            try {
+                sorttable.makeSortable(document.getElementById("stars"));
+                var myTH = document.getElementsByTagName("th")[7];
+                sorttable.innerSortFunction.apply(myTH, []);
+            } catch(e) { }
             $("#submit").html('Process').prop("disabled", false);   
             $('input').prop("disabled", false);
             try { // write target name in URL anchor
@@ -80,7 +98,7 @@ function validform() { //if form is valid, call WSGI
         error : function(resultat, statut, error){ // if wsgi crashed
             $('html').removeClass('wait');
             $('input').prop("disabled", false);
-            $("#sortie").html( 'Error : '+error+', please try again' );
+            $("#result").html( 'Error : '+error+', please try again' );
             $("#submit").html('Process').prop("disabled", false);
             
         },
@@ -101,11 +119,14 @@ document.addEventListener("DOMContentLoaded", function(event) { // jQuery(docume
         storage=false; 
         console.warn("Au chargement de JS-Storage : "+error);
     }             
+    var htmldate = document.getElementById('date');
     document.getElementById('geoloc').addEventListener("click", geoloc, true);
-    document.getElementById('date').valueAsDate = new Date(); //today
+    htmldate.valueAsDate = new Date(); //today
+    if (htmldate.value == "") { htmldate.value = (htmldate.valueAsDate.getFullYear()+'-'+(htmldate.valueAsDate.getMonth()+1)+'-'+htmldate.valueAsDate.getDate()); }
     document.getElementById('time').value = '22:00'; //tonight
     document.getElementById('separation').value=10;
     if (place !== undefined && place !== null) document.getElementById('place').value = place; 
     document.getElementById('target').value = window.location.hash.substr(1).replace('%20',' ');
+    document.getElementById('now').addEventListener("click", now, true);
 
 });/////////////////////////////////////////////////////////////////////////
