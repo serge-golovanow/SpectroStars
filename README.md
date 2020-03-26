@@ -5,6 +5,8 @@
 
 **Find reference stars for astronomical spectroscopy : https://spectro-starfinder.net/**
 
+_Work in progress... Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=2252)._
+
 Based on an idea and the stars database from [François Teyssier](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=1227). Able to find target's coordinates on [SIMBAD](https://simbad.u-strasbg.fr/simbad/), observer's place from [IAU/MPC observatory code](https://minorplanetcenter.net/iau/lists/ObsCodesF.html) or place name, it also manages timezone and daylight saving. Main processing loop on stars database is [parallelized](https://joblib.readthedocs.io/en/latest/parallel.html).
 
 
@@ -33,9 +35,8 @@ lib/functions.py|Python|Various functions
 lib/observer.py|Python|Observer
 lib/otypes.py|Python|Object classification in SIMBAD
 lib/target.py|Python|Target
+makehtml.py|Python|Create offline HTML list of stars
 wsgi.py|Python|Optional WSGI backend
 index.html|HTML, CSS|Optional web page
 jslib.js|JavaScript|jQuery and JS-Storage for the web page
 jscode.js|JavaScript|JavaScript code for the web page
-
-_**Work in progress... Discussions on [spectro-aras forum](http://www.spectro-aras.com/forum/viewtopic.php?f=8&t=2252).**_
