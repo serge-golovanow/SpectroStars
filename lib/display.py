@@ -1,5 +1,7 @@
 import math,re
 from lib.otypes import otypes
+from astropy import units as u
+from astropy.coordinates import SkyCoord, Angle
 
 picklesdb = ['o5v', 'o8iii', 'o9v', 'a0i', 'a0iii', 'a0iv', 'a0v', 'a2i', 'a2v', 'a3iii', 'a3v', 'a47iv', 'a5iii', 'a5v', 'a7iii', 'a7v', 'b0i', 'b0v', 'b12iii', 'b1i', 'b1v', 'b2ii', 'b2iv', 'b3i', 'b3iii', 'b3v', 'b57v', 'b5i', 'b5ii', 'b5iii', 'b6iv', 'b8i', 'b8v', 'b9iii', 'b9v']
 
