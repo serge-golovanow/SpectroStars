@@ -56,7 +56,7 @@ def application(environ, start_response):
     else: outputlines = ['no target ?!!'] #no default target
 
     if (outputlines is None): 
-        csvfilename = 'cds.csv'
+        csvfilename = 'base.csv'
         
         base = Base(csvfilename)  #load database in an object
         observateur = Observer(obsplacename, obsdatetime)  #create observer object
