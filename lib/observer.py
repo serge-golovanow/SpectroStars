@@ -12,15 +12,11 @@ from astropy import units as u
 from astropy.coordinates import  SkyCoord, EarthLocation, AltAz, Angle
 from astroquery.mpc import MPC
 
-
-#Cache directory, with ending  /, or None
-cachedir = '/tmp/'
-
-#Google Api Key or None ( https://developers.google.com/maps/documentation/geocoding/get-api-key )
-#If None, OSM will be used, without place altitude : https://nominatim.openstreetmap.org/
-#IF you're using AstroPy version <3.1, you'll get trouble... Soon, if False, no geolocation : lat,Lon will be required
-googleapikey = None
-
+import configparser
+cfg = configparser.ConfigParser()
+cfg.read('config.ini')
+cachedir = cfg.get('spectrostars','cachedir',fallback=None)
+googleapikey = cfg.get('spectrostars','googleapikey',fallback=None)
 
 class Observer:
     def __init__(self,obsplace,localtime):
@@ -48,7 +44,7 @@ class Observer:
             except:
                 obs = None   
 
-        if (obs is None and googleapikey is not None):
+        if (obs is None):
             try:
                 obs = EarthLocation.of_address(address=obsplace,get_height=(googleapikey!=None),google_api_key=googleapikey)
             except:

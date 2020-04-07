@@ -30,14 +30,15 @@ iers.conf.auto_download = False
 import warnings
 warnings.filterwarnings(action="ignore")
 
-csvfilename = 'base.csv'
-#targetname = "16h41m42s +36d27m41s"
-#targetname = "PNV J06095740+1212255"
-#targetname = "08 10 14 22 12 16"
-targetname = 'M27'
-obsplacename = '586' # a place name, an IAU/MPC code, or lat,lon in degrees
-obsdatetime = '2019-09-15 23:00' # YYYY-MM-DD HH:MM
-maxseparation = 5 # separation in degrees
+import configparser
+cfg = configparser.ConfigParser()
+cfg.read('config.ini')
+
+csvfilename = cfg.get('spectrostars','csvfilename')
+targetname = cfg.get('spectrostars','targetname')
+obsplacename = cfg.get('spectrostars','obsplacename')
+obsdatetime = cfg.get('spectrostars','obsdatetime')
+maxseparation = cfg.getint('spectrostars','maxseparation')
 
 base = Base(csvfilename)  #load database in an object
 observateur = Observer(obsplacename, obsdatetime)  #create observer object

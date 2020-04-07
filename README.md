@@ -23,11 +23,12 @@ Searching for stars nearer than 5° of M27, from [586](https://minorplanetcenter
     06  HD 187362   4.4°    5.0     19h48m59s +19d08m31s    64°, Δh=-4.2°   0.1     0.02    A3V
     07  HD 192044   4.7°    5.9     20h12m01s +26d28m44s    72°, Δh=4.4°    -0.106  0.02    B7Ve
 
-Required python packages : [timezonefinder](https://pypi.org/project/timezonefinder/) [pytz](https://pypi.org/project/pytz/) [numpy](https://pypi.org/project/numpy/) [astropy](https://pypi.org/project/astropy/) [astroquery](https://pypi.org/project/astroquery/) [joblib](https://pypi.org/project/joblib/). AstroPy version >= 3.1 is required. Caution, [numba](https://pypi.org/project/numba/) badly interferes.
+Required python packages : [configparser](https://pypi.org/project/configparser/) [timezonefinder](https://pypi.org/project/timezonefinder/) [pytz](https://pypi.org/project/pytz/) [numpy](https://pypi.org/project/numpy/) [astropy](https://pypi.org/project/astropy/) [astroquery](https://pypi.org/project/astroquery/) [joblib](https://pypi.org/project/joblib/). AstroPy version >= 3.1 is required. Caution, [numba](https://pypi.org/project/numba/) badly interferes.
 
 File|Language|Description
 ----|--------|-----------
 spectrostars.py|Python|Main script
+config.ini|INI|Configuration
 base.csv|CSV|Stars database
 lib/base.py|Python|Stars database
 lib/display.py|Python|Formater for HTML or text display

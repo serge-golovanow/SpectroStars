@@ -37,6 +37,11 @@ iers.conf.auto_download = False
 import warnings
 warnings.filterwarnings(action="ignore")
 
+import configparser
+cfg = configparser.ConfigParser()
+cfg.read('config.ini')
+csvfilename = cfg.get('spectrostars','csvfilename')
+
 def application(environ, start_response):
     query = parse_qs(environ['QUERY_STRING']) #query parameters
     outputlines = None #array with all lines to output
@@ -55,9 +60,7 @@ def application(environ, start_response):
     if 'target' in query: targetname = escape(query.get('target')[0])
     else: outputlines = ['no target ?!!'] #no default target
 
-    if (outputlines is None): 
-        csvfilename = 'base.csv'
-        
+    if (outputlines is None):         
         base = Base(csvfilename)  #load database in an object
         observateur = Observer(obsplacename, obsdatetime)  #create observer object
         cible = Target(targetname)  #create target object

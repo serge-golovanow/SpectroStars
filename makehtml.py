@@ -18,16 +18,6 @@ On Windows, give a try to MiniConda
 v19-03-05
 '''
 
-csvfilename = 'base.csv'
-#targetname = "16h41m42s +36d27m41s"
-#targetname = "PNV J06095740+1212255"
-#targetname = "18 10 14 22 12 16"
-targetname = 'M 57'
-obsplacename = '586' # a place name, an IAU/MPC code, or lat,lon in degrees
-obsdatetime = '2019-09-15 22:00' # YYYY-MM-DD HH:MM
-maxseparation = 10 # separation in degrees
-
-
 from lib.functions import *
 from lib.target import Target
 from lib.observer import Observer
@@ -41,6 +31,16 @@ iers.conf.auto_download = False
 #avoid "No known catalog could be found" warning
 import warnings
 warnings.filterwarnings(action="ignore")
+
+import configparser
+cfg = configparser.ConfigParser()
+cfg.read('config.ini')
+
+csvfilename = cfg.get('spectrostars','csvfilename')
+targetname = cfg.get('spectrostars','targetname')
+obsplacename = cfg.get('spectrostars','obsplacename')
+obsdatetime = cfg.get('spectrostars','obsdatetime')
+maxseparation = cfg.getint('spectrostars','maxseparation')
 
 outputfilename = 'stars-'+''.join(e for e in targetname if e.isalnum())+'.html'
 
