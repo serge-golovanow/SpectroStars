@@ -72,7 +72,7 @@ class Observer:
         try:
             tz = pytz.timezone(tzf.timezone_at(lng=float(obs.lon.to_string(decimal=True)), lat=float(obs.lat.to_string(decimal=True))))
         except:
-            tz = None
+            tz = pytz.timezone('UTC')
         self.tz = tz
 
         obsdatetime = datetime.strptime(localtime, '%Y-%m-%d %H:%M')#.astimezone(timezone(tz))
