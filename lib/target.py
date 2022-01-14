@@ -22,8 +22,8 @@ class Target:
             self.ra = Angle(CDS['RA'][0],u.hourangle)
             #print(str(self.ra))
             self.dec = Angle(CDS['DEC'][0],u.deg)
-            self.mainid = str(CDS['MAIN_ID'][0].decode("utf-8"))
-            self.otype =  str(CDS['OTYPE'][0].decode("utf-8"))
+            self.mainid = str(CDS['MAIN_ID'][0])#.decode("utf-8"))
+            self.otype =  str(CDS['OTYPE'][0])#.decode("utf-8"))
             self.sky = SkyCoord(self.ra,self.dec, unit=(u.hourangle, u.deg))
             self.const = self.sky.get_constellation()
             return  #fini !
