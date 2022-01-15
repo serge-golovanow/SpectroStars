@@ -37,6 +37,7 @@ class Observer:
         if (obs is None and re.match(r'^[A-Za-z0-9][0-9]{2}$',obsplace)):
             try:
                 mpc = MPC.get_observatory_location(obsplace.upper())
+                mpc = MPC.get_observatory_location(obsplace.upper(),cache=False)
                 lon = float(mpc[0].to_string(decimal=True))
                 if lon>180: lon = -(360-lon) #convert 0->360 to -180->180
                 lat = math.atan((mpc[2]/mpc[1]/0.99330546)) /math.pi * 180
