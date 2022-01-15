@@ -102,3 +102,14 @@ class Observer:
             + ', tz=' + str(self.tz)
             + ', ' + str(self.time).replace(':00.000','') + ' UTC'        
         )
+
+    def xml(self):
+        return (
+            '<observer>'
+            + ' <lat dms="' + self.place.lat.to_string(precision=0) + '">' + self.place.lat.to_string(decimal=True) + '</lat>'
+            + ' <lon dms="' + self.place.lon.to_string(precision=0) + '">' + self.place.lon.to_string(decimal=True) + '</lon>'
+            + ' <altitude>' + str(round(float(self.place.height/u.m))) + '</altitude>'
+            + ' <timezone utcoffset="' + str(self.tz.utcoffset(self.time.to_datetime())) + '">' + str(self.tz) + '</timezone>'
+            + ' <utcdatetime>' + str(self.time).replace(':00.000','') + '</utcdatetime>'
+            + ' </observer>'
+        )

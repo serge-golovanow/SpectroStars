@@ -76,3 +76,18 @@ class Target:
             + 'azimuth=' + str(int(self.az)) + '°, '
             + 'airmass=' + str(round(self.secz,3))
         )
+
+    def xml(self):
+        coords = self.sky.to_string()
+        hmsdmscoords = self.sky.to_string(style='hmsdms',precision=0)
+        return (
+            '<target>'
+            + ' <name>' + self.mainid + '</name>'
+            + ' <ra hms="' + hmsdmscoords.split()[0] + '">' + coords.split()[0] + '</ra>'
+            + ' <dec dms="' + hmsdmscoords.split()[1] + '">' + coords.split()[1] + '</dec>'
+            + ' <otype fulltype="' + otypes[self.otype] + '">' + self.otype + '</otype>'
+            + ' <const>' + self.const + '</const>'
+            + ' <alt>' + str(self.alt) + '</alt>'
+            + ' <azimuth direction="' + azToDirection(self.az) + '">' + str(self.az) + '</azimuth>'
+            + '</target>'
+        )

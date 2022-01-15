@@ -14,7 +14,7 @@ Apache (mod-wsgi-py3) VirtualHost configuration example :
     WSGIProcessGroup spectrostars
     WSGIScriptAlias /spectrostars/wsgi /var/www/spectrostars/wsgi.py
 
-v2020-01-05
+v2022-01-14
 '''
 
 import os
@@ -46,12 +46,14 @@ def application(environ, start_response):
     query = parse_qs(environ['QUERY_STRING']) #query parameters
     outputlines = None #array with all lines to output
 
+    if 'output' in query : outputmode = escape(query.get('output')[0])
+    else: outputmode = 'html'
     if 'separation' in query: maxseparation = int(query.get('separation')[0])
     else: maxseparation = 10 # default separation
     if maxseparation<5: maxseparation=5 # min separation
     if maxseparation>20: maxseparation=20 # max separation
     if 'date' in query: date = escape(query.get('date')[0])
-    else: date = datetime.strftime('%Y-%m-%d') #today ;  now() ?
+    else: date = datetime.today().strftime('%Y-%m-%d')
     if 'time' in query: time = escape(query.get('time')[0])
     else: time = '22:00' #local time
     obsdatetime = date+' '+time
@@ -72,8 +74,16 @@ def application(environ, start_response):
         else:
             cible.observe(observateur)  #observe target
             base.near(cible,maxseparation,observateur)
-            if cible.alt>0: outputlines = [cible.html()+'<br>',observateur.html()+'<br>',base.html()]
-            else: outputlines = [cible.html()+'<br>',observateur.html()+'<br>','Target is below the horizon !']
+
+            if outputmode == 'html':
+                if cible.alt>0: outputlines = [cible.html()+'<br>',observateur.html()+'<br>',base.html()]
+                else: outputlines = [cible.html()+'<br>',observateur.html()+'<br>','Target is below the horizon !']
+            elif outputmode == 'xml':
+                if cible.alt>0: outputlines = [cible.xml(),observateur.xml(),base.xml()]
+                else: outputlines = [cible.xml(),observateur.xml(),'<!-- Target is below the horizon ! -->','<stars results="0"></stars>']
+            else:
+                if cible.alt>0: outputlines = [cible.txt(),observateur.txt(),base.txt()]
+                else: outputlines = [cible.txt(),observateur.txt(),'Target is below the horizon !']                
 
     if (outputlines is not None): status = '200 OK' #HTTP success
     else: 

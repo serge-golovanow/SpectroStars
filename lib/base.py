@@ -68,3 +68,23 @@ class Base:
             )
             line += 1
         return text
+
+    def xml(self):
+        text = '<stars results="' + str(len(self.nearbase)) + '">'+"\n"
+        for star in self.nearbase:
+            text = text + ( ' <star>'
+                + Name(star['Name']).xml(star['CDSName'],star['SAO']) 
+                + Separation(star['Separation']).xml()
+                + VMag(star['V']).xml()
+                + RA(star['Sky']).xml()
+                + Dec(star['Sky']).xml()
+                + Alt(star['Alt']).xml()
+                + Delta(star['Delta']).xml()
+                + BV(star['B-V']).xml()
+                + EBV(star['EB-V']).xml()   
+                + SPType(star['Sp']).xml()   
+                + Miles(star['Miles']).xml()
+                + ' </star>'+"\n"
+            )
+        text = text + '</stars>'+"\n"
+        return text
